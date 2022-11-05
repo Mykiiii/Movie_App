@@ -1,0 +1,40 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: Api-Gateway
+  cloud:
+    gateway:
+      routes:
+        - id: User-Service
+          uri: lb://User-Service
+          predicates:
+          - Path=/user/**
+        - id: Auth-Service
+          uri: lb://Auth-Service
+          predicates:
+          - Path=/auth/**
+        - id: Movie-Download-Service
+          uri: lb://Movie-Download-Service
+          predicates:
+              - Path=/api/download/movie/**
+        - id: Movie-Fav-Service
+          uri: lb://Movie-Fav-Service
+          predicates:
+              - Path=/api/favorite/movie/**
+        - id: Movie-Service
+          uri: lb://Movie-Service
+          predicates:
+              - Path=/api/movie/**
+
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:9070/eureka/
+  instance:
+    hostname: localhost
